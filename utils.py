@@ -159,7 +159,7 @@ def get_distance(distance_list: List[List[str]], start_address: int, end_address
     """
 
     # set the initial distance value to 0.0
-    num = 0.0
+    distance = 0.0
 
     # determine which table lookup is not empty, then set the num value to that distance
     if distance_list[start_address][end_address] != '':
@@ -380,7 +380,7 @@ def nearest_neighbor(package_list: List[int],package_data: HashTable, address_da
             nearest_package_id = package_id
             nearest_target_index = target_index
 
-    # return the id of the nearest package, the index of the nearest address, and the distance of the closest packge
+    # return the id of the nearest package, the index of the nearest address, and the distance of the closest package
     return nearest_package_id, nearest_target_index, min_distance
 
 

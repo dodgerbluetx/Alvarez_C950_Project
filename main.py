@@ -23,6 +23,8 @@ def main():
         list, the address list, and the distance list). As these lists grown, the required storage spaces grows in a
         linear fashion.
 
+    Space and Time complexity for methods used below are detailed in the docstrings comments for each specific method.
+
     Args:
         None
 
@@ -30,50 +32,37 @@ def main():
         None
     """
 
-    # define the csv data files
+    # define the csv data file locations
     address_file = "data/addresses.csv"
     distance_file = "data/distances.csv"
     package_file = "data/packages.csv"
 
-    # load the csv data
-    # the time complexity is O(n) to load the csv data
-    # the space complexity is O(n) for addresses and distances, and O(n) + O(k) for packages
+    # load the package, distance, and address csv data
     package_data = load_packages(file=package_file)
     distance_data = load_distances(file=distance_file)
     address_data = load_addresses(file=address_file)
 
-    # create all three trucks at the hub
-    # the time complexity is O(1) to create a truck instance
-    # the space complexity is O(1) as the number of attributes is constant
+    # create all three truck instances - a, b, c
     truck_a = Truck(id=1, name="Truck A", depart_time=datetime.time(9, 5, 0))
     truck_b = Truck(id=2, name="Truck B", depart_time=datetime.time(8, 0, 0))
     truck_c = Truck(id=3, name="Truck C", depart_time=datetime.time(12, 30, 0))
 
-    # package assignments
-    # the time complexity is O(1) to create each truck load out
-    # the space complexity is O(n) where n is the number of items in each list
+    # create package loads for each of the three trucks
     load_a = [[6, 25, 30, 31, 40, 13], [28, 32, 8, 12, 17, 22, 26, 4, 39]]
     load_b = [[15, 20, 16, 14, 1, 29, 21, 34, 37], [3, 18, 36, 38, 5, 7, 19]]
     load_c = [[9, 23, 24, 27, 35, 10, 11, 2, 33]]
 
-    # calculate the length of each load list
-    # the time complexity is O(1) to calculate each load list length
-    # the space complexity is O(1) to store each calculated value
+    # calculate and summarize the length of each load list
     load_a_count = len(load_a[0]) + len(load_a[1])
     load_b_count = len(load_b[0]) + len(load_b[1])
     load_c_count = len(load_c[0])
 
-    # load the trucks
-    # the time complexity is O(n) to load each truck
-    # the space complexity is O(n) where n is also the number of packages to assign to each truck
+    # load the trucks with the packages in the load lists
     load_truck(truck=truck_a, load_list=load_a)
     load_truck(truck=truck_b, load_list=load_b)
     load_truck(truck=truck_c, load_list=load_c)
 
-    # deliver the packages
-    # the time complexity is O(n^2) to deliver the packages
-    # the space complexity is O(n) where n is also the number of variables and calculations done
-    # to calculate the route values and time deltas
+    # run each truck's delivery routine
     truck_a_distance = deliver_packages(truck=truck_a, package_data=package_data, address_data=address_data,
                                         distance_data=distance_data)
     truck_b_distance = deliver_packages(truck=truck_b, package_data=package_data, address_data=address_data,
@@ -81,11 +70,10 @@ def main():
     truck_c_distance = deliver_packages(truck=truck_c, package_data=package_data, address_data=address_data,
                                         distance_data=distance_data)
 
+    # add all three truck route milage into total distance
     total_distance = truck_a_distance + truck_b_distance + truck_c_distance
 
-    # calculate time statistics for each truck
-    # the time complexity is O(n) to calculate the truck statistics, where n is number of packages to parse
-    # the space complexity is O(n) where n is the number of packages to parse
+    # calculate delivery time statistics for each truck
     a_first_time, a_last_time, a_first_package, a_last_package = first_last_times(package_data=package_data,
                                                                                   truck_name="Truck A")
     b_first_time, b_last_time, b_first_package, b_last_package = first_last_times(package_data=package_data,
@@ -93,11 +81,10 @@ def main():
     c_first_time, c_last_time, c_first_package, c_last_package = first_last_times(package_data=package_data,
                                                                                   truck_name="Truck C")
 
+    # set the default selection value to 0
     selection = 0
 
-    # display the user interface
-    # Time complexity of displaying the user menu is O(1) as the same data is displayed for each option
-    # the space complexity of displaying the user menu is O(1) as the same input variables are used for each option
+    # display the user interface welcome screen
     while True:
         print()
         print("+-------------------------------------------------+")
@@ -115,18 +102,25 @@ def main():
         print("+-------------------------------------------------+")
         selection = input(" Enter a selection: ")
 
+        # when option 1 is selected, restart the program
         if selection == "1":
             os.execv(sys.executable, [sys.executable] + sys.argv)
+
+        # when option 2 is selected, display all package delivery data
         elif selection == "2":
             os.system("clear")
             display_all_package_data(package_data=package_data, display_time=None)
             print()
             input(" Press Enter to return to main menu...")
+
+        # when option 3 is selected, ask the user to input a time, and then display the delivery data for that time
         elif selection == "3":
             time_input = input(" Enter a (24-hour format) time (HH:MM:SS): ")
             display_time = datetime.datetime.strptime(time_input, "%H:%M:%S").time()
             display_all_package_data(package_data=package_data, display_time=display_time)
             input(" Press Enter to return to main menu...")
+
+        # when option 4 is selected, display the individual truck delivery statistics
         elif selection == "4":
             print("+-------------------------------------------------+")
             print("|  WGUPS Truck Delivery Statistics                |")
@@ -160,12 +154,16 @@ def main():
             print(f"|  Hub Return Time: {truck_c.return_time.strftime('%I:%M:%S %p')}                   |")
             print("+-------------------------------------------------+")
             input(" Press Enter to return to main menu...")
+
+        # when option 5 is selected, exit the program
         elif selection == "5":
             print()
             print(" Thank you for using the WGUPS Package Delivery system!")
             print(" Goodbye!")
             print()
             sys.exit(0)
+
+        # when none of the previous 5 options are entered, instruct the user to try again
         else:
             print(" Invalid selection, please try again!")
             input(" Press Enter to continue...")

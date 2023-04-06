@@ -1,4 +1,7 @@
 .DS_Store
+.idea/
+data/package_modded.xls
+data/wgups_package_file.csv
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -273,14 +273,14 @@ def display_all_package_data(package_data: HashTable, display_time: Union[dateti
             # the package is still in the hub
             if display_time < package.delivery_time and display_time < truck_start_time:
                 delivery_status = "Hub"
-                delivery_time = datetime.time(0, 0, 0)
+                delivery_time = "TBD"
 
                 print(
                     f"| "
                     f"{package.id :>2} | "
                     f"{delivery_status :<9} | "
                     f"{package.deadline :<8} | "
-                    f"{delivery_time.strftime('%I:%M:%S %p') :<11} | "
+                    f"{delivery_time :<11} | "
                     f"{truck_name :<9} | "
                     f"{package.weight :>6} | "
                     f"{address_str :<67} | "
@@ -289,14 +289,14 @@ def display_all_package_data(package_data: HashTable, display_time: Union[dateti
             # the package is en route but not yet delivered
             elif package.delivery_time > display_time > truck_start_time:
                 delivery_status = "En Route"
-                delivery_time = datetime.time(0, 0, 0)
+                delivery_time = "TBD"
 
                 print(
                     f"| "
                     f"{package.id :>2} | "
                     f"{Style.YELLOW}{delivery_status :<9}{Style.RESET} | "
                     f"{Style.YELLOW}{package.deadline :<8}{Style.RESET} | "
-                    f"{Style.YELLOW}{delivery_time.strftime('%I:%M:%S %p') :<11}{Style.RESET} | "
+                    f"{Style.YELLOW}{delivery_time :<11}{Style.RESET} | "
                     f"{Style.YELLOW}{truck_name :<9}{Style.RESET} | "
                     f"{package.weight :>6} | "
                     f"{address_str :<67} | "

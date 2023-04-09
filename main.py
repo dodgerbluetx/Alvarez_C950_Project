@@ -50,9 +50,9 @@ def main():
     truck_c = Truck(id=3, name="Truck C", depart_time=datetime.time(12, 30, 0))
 
     # create package loads for each of the three trucks
-    load_a = [[6, 25, 30, 31, 40, 13], [28, 32, 8, 12, 17, 22, 26, 4, 39]]
-    load_b = [[15, 20, 16, 14, 1, 29, 21, 34, 37], [3, 18, 36, 38, 5, 7, 19]]
-    load_c = [[9, 23, 24, 27, 35, 10, 11, 2, 33]]
+    load_a = [[1, 4, 6, 7, 8, 25, 26, 29, 30, 31, 32, 40], [12, 17, 22, 28]]
+    load_b = [[5, 13, 14, 15, 16, 20, 21, 34, 37, 38, 39], [3, 18, 19, 36]]
+    load_c = [[2, 9, 10, 11, 23, 24, 27, 33, 35]]
 
     # calculate and summarize the length of each load list
     load_a_count = len(load_a[0]) + len(load_a[1])
